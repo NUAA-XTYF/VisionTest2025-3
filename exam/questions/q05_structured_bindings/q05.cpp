@@ -13,7 +13,7 @@
 // 知识点：std::pair 的结构化绑定
 // 请补全：用结构化绑定从 pair 中取出 first 和 second
 std::pair<int, int> split_pair(std::pair<int, int> p) {
-    /* _____ */
+    auto [a,b]=p;
     return {b, a};    // 交换返回
 }
 // ===== 填空 1 结束 =====
@@ -22,7 +22,7 @@ std::pair<int, int> split_pair(std::pair<int, int> p) {
 // 知识点：std::tuple 的结构化绑定
 // 请补全：从三元素 tuple 中用结构化绑定取出三个值，并返回其和
 int sum_tuple(std::tuple<int, int, int> t) {
-    /* _____ */
+    auto [x,y,z]=t;
     return x + y + z;
 }
 // ===== 填空 2 结束 =====
@@ -31,7 +31,7 @@ int sum_tuple(std::tuple<int, int, int> t) {
 // 知识点：聚合结构体的结构化绑定
 struct Point { int x; int y; };
 int manhattan(Point p) {
-    /* _____ */
+    auto [x,y]=p;
     return (x < 0 ? -x : x) + (y < 0 ? -y : y);
 }
 // ===== 填空 3 结束 =====
@@ -40,7 +40,7 @@ int manhattan(Point p) {
 // 知识点：range-for 中对 map 使用结构化绑定
 int sum_map(const std::map<std::string, int>& m) {
     int total = 0;
-    for (/* _____ */) {
+    for (const auto& [key,val]:m) {
         total += val;
     }
     return total;
@@ -51,7 +51,7 @@ int sum_map(const std::map<std::string, int>& m) {
 // 知识点：结构化绑定 + vector of pairs
 std::vector<int> seconds(const std::vector<std::pair<int,int>>& v) {
     std::vector<int> result;
-    for (/* _____ */) {
+    for (const auto& [first,second]:v) {
         result.push_back(second);
     }
     return result;

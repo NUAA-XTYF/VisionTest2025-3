@@ -11,7 +11,7 @@
 // 知识点：std::move 将左值转为右值引用，触发移动构造
 // 请用 std::move 将 src 字符串移入返回值，移动后 src 变为空
 std::string move_string(std::string& src) {
-    return /* _____ */;
+    return std::move(src);
 }
 // ===== 填空 1 结束 =====
 
@@ -19,7 +19,7 @@ std::string move_string(std::string& src) {
 // 知识点：右值引用参数 T&&，接受临时对象
 // 请完成 sink 函数，参数为 string 的右值引用，将其内容存入全局 vector
 std::vector<std::string> g_sink_results;
-void sink(/* _____ */) {
+void sink(std::string&& s) {
     g_sink_results.push_back(std::move(s));
 }
 // ===== 填空 2 结束 =====
@@ -40,8 +40,8 @@ struct Buffer {
 
     // ===== 移动构造 =====
     Buffer(Buffer&& other) noexcept
-        : data(/* _____ */),
-          size(/* _____ */)
+        : data(std::exchange(other.data,nullptr)),
+          size(std::exchange(other.size,0))
     {}
     // ===== 结束 =====
 };
@@ -52,7 +52,7 @@ struct Buffer {
 // 请补全 wrapper，完美转发参数 arg 给 sink
 template <typename T>
 void wrapper(T&& arg) {
-    sink(/* _____ */);
+    sink(std::forward<T>(arg));
 }
 // ===== 填空 4 结束 =====
 
