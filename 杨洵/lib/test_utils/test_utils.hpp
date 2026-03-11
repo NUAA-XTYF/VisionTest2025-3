@@ -65,6 +65,17 @@ inline void log_execution(const std::string& msg, bool verbose = false) {
         }                                                                    \
     } while (0)
 
+// 新功能：带自定义错误消息的断言宏
+#define CHECK_MSG(expr, msg)                                                 \
+    do {                                                                     \
+        ++test_utils::g_tests_run;                                           \
+        if (!(expr)) {                                                       \
+            ++test_utils::g_tests_failed;                                    \
+            std::cerr << "[FAILED] " #expr " : " << (msg)                    \
+                      << "  (" << __FILE__ << ":" << __LINE__ << ")\n";      \
+        }                                                                    \
+    } while (0)
+
 #define CHECK_EQ(a, b)                                                       \
     do {                                                                     \
         ++test_utils::g_tests_run;                                           \

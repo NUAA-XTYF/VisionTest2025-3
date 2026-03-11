@@ -3,8 +3,6 @@
 // 知识点：std::move、右值引用 &&、移动构造函数、std::forward
 // ============================================================
 #include "test_utils.hpp"
-#include <string>
-#include <vector>
 #include <utility>
 
 // ===== 填空 1 =====

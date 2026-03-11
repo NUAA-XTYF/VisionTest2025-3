@@ -19,7 +19,7 @@ int pi=3.14; // 破坏：改为显式的 int
 // 知识点：decltype 推导表达式类型
 // 请用 decltype 声明一个与 pi 类型相同的变量，赋值 2.71
 //
-decltype(pi) e=2.71;
+decltype(pi) e=2.71828l;
 
 // ===== 填空 2 结束 =====
 

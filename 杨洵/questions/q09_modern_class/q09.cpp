@@ -13,7 +13,7 @@ struct Animal {
 };
 
 struct Dog : Animal {
-    std::string sound() const override {
+    std::string sound()  override {
         return "Woof";
     }
 };
@@ -31,7 +31,7 @@ struct Cat final : Animal {
 struct Trivial {
     int x;
     Trivial() =default;
-    Trivial(const Trivial&) = default;
+    Trivial(const Trivial) = default;
 };
 // ===== 填空 3 结束 =====
 

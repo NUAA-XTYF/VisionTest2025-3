@@ -13,7 +13,7 @@ struct Animal {
 };
 
 struct Dog : Animal {
-    std::string sound() const override/* _____ */ {
+    std::string sound() const/* _____ */ {
         return "Woof";
     }
 };

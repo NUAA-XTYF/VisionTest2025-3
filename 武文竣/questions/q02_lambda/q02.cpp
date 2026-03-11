@@ -11,7 +11,7 @@
 // 知识点：lambda 值捕获 [=]
 // 请补全 make_adder：返回一个 lambda，按值捕获 n，并将其加到参数上
 std::function<int(int)> make_adder(int n) {
-    return [=](int x) {return x+n;};/* _____ */
+    return [=](int x) {x+n};/* _____ */
 }
 // ===== 填空 1 结束 =====
 
@@ -20,7 +20,7 @@ std::function<int(int)> make_adder(int n) {
 // 请补全 count_if_ref：用引用捕获 threshold，统计 v 中大于 threshold 的元素个数
 int count_above(const std::vector<int>& v, int threshold) {
     int count = 0;
-    std::for_each(v.begin(), v.end(), [&](int x)/* _____ */ {
+    std::for_each(v.begin(), v.end(), [&](int x) -> double {
         if (x > threshold) ++count;
     });
     return count;
@@ -59,7 +59,7 @@ int main() {
     CHECK_EQ(count_above({1, 5, 3, 8, 2}, 4), 2);
 
     CHECK_EQ(identity(42), 42);
-    CHECK_EQ(identity(std::string("hi")), std::string("hi"));
+    CHECK_EQ(identity(std::string("hi1")), std::string("hi"));
 
     auto cnt = make_counter();
     CHECK_EQ(cnt(), 0);
