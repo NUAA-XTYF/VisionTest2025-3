@@ -13,14 +13,14 @@
 // ===== 填空 1 =====
 // 知识点：std::ranges::sort（对整个容器排序，无需传 begin/end）
 void sort_range(std::vector<int>& v) {
-    /* _____ */
+    std::ranges::sort(v);
 }
 // ===== 填空 1 结束 =====
 
 // ===== 填空 2 =====
 // 知识点：std::ranges::sort + 自定义比较器
 void sort_desc(std::vector<int>& v) {
-    /* _____ */
+    std::ranges::sort(v,std::greater<>{});
 }
 // ===== 填空 2 结束 =====
 
@@ -28,7 +28,7 @@ void sort_desc(std::vector<int>& v) {
 // 知识点：std::views::filter —— 惰性过滤视图
 // 请用 views::filter 保留 v 中的偶数，收集到新 vector
 std::vector<int> filter_even(const std::vector<int>& v) {
-    auto evens = v | /* _____ */;
+    auto evens = v | std::views::filter([](int n){return n%2==0;});
     return std::vector<int>(evens.begin(), evens.end());
 }
 // ===== 填空 3 结束 =====
@@ -37,7 +37,7 @@ std::vector<int> filter_even(const std::vector<int>& v) {
 // 知识点：std::views::transform —— 惰性变换视图
 // 请用 views::transform 将 v 中每个元素乘以 2，收集到新 vector
 std::vector<int> double_elements(const std::vector<int>& v) {
-    auto doubled = v | /* _____ */;
+    auto doubled = v | std::views::transform([](int n){return n*2;});
     return std::vector<int>(doubled.begin(), doubled.end());
 }
 // ===== 填空 4 结束 =====
@@ -47,9 +47,9 @@ std::vector<int> double_elements(const std::vector<int>& v) {
 // 请用管道 | 将 filter（保留正数）和 transform（平方）和 take（前3个）组合
 std::vector<int> pipeline(const std::vector<int>& v) {
     auto result = v
-        | /* _____ */
-        | /* _____ */
-        | /* _____ */;
+        | std::views::filter([](int n){return n>0;})
+        | std::views::transform([](int n){return n*n;})
+        | std::views::take(3);
     // take_view has a sentinel end(), so we use ranges::copy instead of iterator-pair constructor
     std::vector<int> out;
     std::ranges::copy(result, std::back_inserter(out));

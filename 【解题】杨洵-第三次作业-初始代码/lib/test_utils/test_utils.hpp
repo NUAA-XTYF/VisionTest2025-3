@@ -13,8 +13,8 @@ namespace test_utils {
 // ===== 填空 1 =====
 // 知识点：C++17 inline 变量
 // 请用 inline 关键字定义两个全局计数器（已填好，参考即可）
-/* _____ */
-/* _____ */
+inline int g_tests_run=0;
+inline int g_tests_failed=0;
 // ===== 填空 1 结束 =====
 
 // ===== 填空 2 =====
@@ -22,7 +22,7 @@ namespace test_utils {
 // 请补全：若类型 T 可以输出到 ostream，则返回其字符串表示；否则返回 "<not-printable>"
 template <typename T>
 std::string to_string_repr(const T& val) {
-    /* _____ */ {
+    if constexpr(requires {std::declval<std::ostream&>() <<val;}){
         std::ostringstream oss;
         oss << val;
         return oss.str();

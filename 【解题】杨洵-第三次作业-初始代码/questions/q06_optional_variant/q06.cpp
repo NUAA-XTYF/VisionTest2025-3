@@ -11,7 +11,7 @@
 // 知识点：std::optional 作为返回类型，表示可能无值
 // 请补全 safe_divide：若 b == 0 返回 std::nullopt，否则返回 a/b
 std::optional<double> safe_divide(double a, double b) {
-    if (b == 0.0) /* _____ */
+    if (b == 0.0) return std::nullopt;
     return a / b;
 }
 // ===== 填空 1 结束 =====
@@ -20,7 +20,7 @@ std::optional<double> safe_divide(double a, double b) {
 // 知识点：optional::value_or(default)
 // 请补全：调用 safe_divide，若无值则使用默认值 -1.0
 double divide_or_default(double a, double b) {
-    return safe_divide(a, b)/* _____ */;
+    return safe_divide(a, b).value_or(-1.0);
 }
 // ===== 填空 2 结束 =====
 
@@ -28,14 +28,14 @@ double divide_or_default(double a, double b) {
 // 知识点：optional::has_value() 和 optional::value()
 bool has_result(double a, double b) {
     auto result = safe_divide(a, b);
-    return /* _____ */;
+    return result.has_value();
 }
 // ===== 填空 3 结束 =====
 
 // ===== 填空 4 =====
 // 知识点：std::variant<Types...> 声明与赋值
 // 请用 std::variant 声明可以存储 int 或 string 或 double 的变量
-using IntOrStr = /* _____ */;
+using IntOrStr = std::variant<int,double,std::string>;
 
 IntOrStr make_int_variant(int v)         { return v; }
 IntOrStr make_str_variant(std::string s) { return s; }
@@ -50,7 +50,7 @@ template<class... Ts>
 overloaded(Ts...) -> overloaded<Ts...>;  // deduction guide
 
 std::string describe(const IntOrStr& v) {
-    return /* _____ */
+    return std::visit(overloaded{
         [](int)               { return std::string("int"); },
         [](const std::string&){ return std::string("string"); },
         [](double)            { return std::string("double"); }

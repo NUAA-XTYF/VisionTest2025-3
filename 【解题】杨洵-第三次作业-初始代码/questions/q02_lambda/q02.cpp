@@ -11,7 +11,7 @@
 // 知识点：lambda 值捕获 [=]
 // 请补全 make_adder：返回一个 lambda，按值捕获 n，并将其加到参数上
 std::function<int(int)> make_adder(int n) {
-    return /* _____ */;
+    return [=](int a){return a+n;};
 }
 // ===== 填空 1 结束 =====
 
@@ -20,7 +20,7 @@ std::function<int(int)> make_adder(int n) {
 // 请补全 count_if_ref：用引用捕获 threshold，统计 v 中大于 threshold 的元素个数
 int count_above(const std::vector<int>& v, int threshold) {
     int count = 0;
-    std::for_each(v.begin(), v.end(), /* _____ */ {
+    std::for_each(v.begin(), v.end(), [&](int x){
         if (x > threshold) ++count;
     });
     return count;
@@ -30,7 +30,7 @@ int count_above(const std::vector<int>& v, int threshold) {
 // ===== 填空 3 =====
 // 知识点：C++14 泛型 lambda（auto 参数）
 // 请定义一个泛型 lambda identity，接受任意类型参数并原样返回
-auto identity = /* _____ */;
+auto identity = [](auto a){return a;};
 // ===== 填空 3 结束 =====
 
 // ===== 填空 4 =====
@@ -39,7 +39,7 @@ auto identity = /* _____ */;
 //         每次调用计数器 +1，返回旧值
 std::function<int()> make_counter() {
     int counter = 0;
-    return /* _____ */;
+    return [counter] mutable{return counter++;};
 }
 // ===== 填空 4 结束 =====
 
@@ -47,7 +47,7 @@ std::function<int()> make_counter() {
 // 知识点：lambda 作为比较器传入 sort
 // 请用 lambda 对 vector 按降序排序
 void sort_descending(std::vector<int>& v) {
-    std::sort(v.begin(), v.end(), /* _____ */);
+    std::sort(v.begin(), v.end(), [](int a,int b){return a>b;});
 }
 // ===== 填空 5 结束 =====
 

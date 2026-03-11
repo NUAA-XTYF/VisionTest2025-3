@@ -12,21 +12,21 @@
 // 知识点：用 concept 关键字定义概念
 // 请定义概念 Numeric：要求 T 满足 std::is_arithmetic_v<T>
 template <typename T>
-/* _____ */
+concept Numeric=std::is_arithmetic_v<T>;
 // ===== 填空 1 结束 =====
 
 // ===== 填空 2 =====
 // 知识点：requires 子句约束模板参数
 // 请用 requires 子句限定 sum 只接受 Numeric 类型
 template <typename T>
-/* _____ */
+requires Numeric<T>
 T sum(T a, T b) { return a + b; }
 // ===== 填空 2 结束 =====
 
 // ===== 填空 3 =====
 // 知识点：缩写函数模板（abbreviated function template），等价于约束模板
 // 请用 Numeric auto 作为参数类型，定义 multiply（缩写模板语法）
-auto multiply(/* _____ */) {
+auto multiply(Numeric auto a,Numeric auto b) {
     return a * b;
 }
 // ===== 填空 3 结束 =====
@@ -36,14 +36,14 @@ auto multiply(/* _____ */) {
 // 请定义概念 Printable：要求 T 可以用 << 输出到 std::ostream
 template <typename T>
 concept Printable = requires(std::ostream& os, const T& val) {
-    /* _____ */
+    os<<val;
 };
 // ===== 填空 4 结束 =====
 
 // ===== 填空 5 =====
 // 知识点：多约束 concept + std::ranges::range concept
 // 请定义函数 range_sum：接受任何满足 std::ranges::range 的容器，返回元素之和
-auto range_sum(const /* _____ */) {
+auto range_sum(const std::ranges::range auto& r) {
     using T = std::ranges::range_value_t<decltype(r)>;
     return std::accumulate(std::begin(r), std::end(r), T{});
 }
