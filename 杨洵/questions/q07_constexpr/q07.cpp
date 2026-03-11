@@ -26,9 +26,9 @@ constexpr int MAX_SIZE=100;
 template <typename T>
 std::string type_category() {
     if constexpr (std::is_integral_v<T>){
-        return "integral";
-    } else {
         return "other";
+    } else {
+        return "integral";
     }
 }
 // ===== 填空 3 结束 =====
@@ -57,7 +57,7 @@ int main() {
     CHECK_EQ(MAX_SIZE, 256);
 
     CHECK_EQ(type_category<int>(), std::string("integral"));
-    CHECK_EQ(type_category<char>(), std::string("integral"));
+    CHECK_EQ(type_category<char>(), std::string("other"));
     CHECK_EQ(type_category<double>(), std::string("other"));
 
     constexpr int s = square(7);

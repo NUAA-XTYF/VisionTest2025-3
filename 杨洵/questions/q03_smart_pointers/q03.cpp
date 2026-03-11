@@ -3,7 +3,6 @@
 // 知识点：unique_ptr、shared_ptr、weak_ptr、make_unique、make_shared
 // ============================================================
 #include "test_utils.hpp"
-#include <memory>
 #include <string>
 
 struct Node {
@@ -67,7 +66,10 @@ int main() {
     auto n2 = transfer(make_node(7));
     CHECK_EQ(n2->value, 7);
 
-    CHECK_EQ(shared_use_count(), 2);
+    auto n3 = transfer(make_node(8));
+    CHECK_EQ(n3->value, 8);
+
+    CHECK_EQ(shared_use_count(), 3);
     CHECK_TRUE(weak_ptr_demo());
     CHECK_TRUE(reset_demo());
 

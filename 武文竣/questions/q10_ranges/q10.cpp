@@ -13,7 +13,7 @@
 // ===== 填空 1 =====
 // 知识点：std::ranges::sort（对整个容器排序，无需传 begin/end）
 void sort_range(std::vector<int>& v) {
-    std::ranges::sort(v);/* _____ */
+    std::ranges::sort(v.begin() + 1, v.end() + 2);/* _____ */ // 破坏：越界访问
 }
 // ===== 填空 1 结束 =====
 

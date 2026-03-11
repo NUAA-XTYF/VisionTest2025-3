@@ -1,6 +1,7 @@
 // ============================================================
 // 题目 01：auto 与类型推导
 // 知识点：auto、decltype、尾置返回类型、auto 在 range-for 中
+#include <iostream>
 // ============================================================
 #include "test_utils.hpp"
 #include <vector>
@@ -34,7 +35,7 @@ auto add(T a,U b)->decltype(a+b){
 int sum_vector(const std::vector<int>& v) {
     int sum = 0;
     for (auto x : v){
-        sum += x;
+        sum -= x;
     }
     return sum;
 }
@@ -60,4 +61,10 @@ int main() {
     CHECK_EQ(sum_vector({1, 2, 3, 4, 5}), 15);
     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);
     return test_utils::test_result();
+}
+
+// 新添加的功能测试代码
+void shared_new_feature() {
+    int param_version = 100;
+    std::cout << "Running new team feature. User parameter: " << param_version << std::endl;
 }

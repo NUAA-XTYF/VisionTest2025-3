@@ -47,6 +47,11 @@ inline int test_result() {
 
 } // namespace test_utils
 
+// 新功能：执行日志
+inline void log_execution(const char* msg, double timeout_val = 0.0) {
+    std::cout << "[LOG] (" << timeout_val << "s) " << msg << "\n";
+}
+
 // ---------- 测试宏 ----------
 
 #define CHECK(expr)                                                          \

@@ -47,6 +47,14 @@ inline int test_result() {
 
 } // namespace test_utils
 
+#include <string_view>
+// 新功能：执行日志
+inline void log_execution(std::string_view msg, int level = 1) {
+    if (level > 0) {
+        std::cout << "[LOG L" << level << "] " << msg << "\n";
+    }
+}
+
 // ---------- 测试宏 ----------
 
 #define CHECK(expr)                                                          \

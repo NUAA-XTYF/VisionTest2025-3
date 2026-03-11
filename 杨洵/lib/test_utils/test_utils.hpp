@@ -44,6 +44,15 @@ inline int test_result() {
 
 } // namespace test_utils
 
+// 新功能：执行日志
+inline void log_execution(const std::string& msg, bool verbose = false) {
+    if (verbose) {
+        std::cout << "[LOG VERBOSE] " << msg << "\n";
+    } else {
+        std::cout << "[LOG] " << msg << "\n";
+    }
+}
+
 // ---------- 测试宏 ----------
 
 #define CHECK(expr)                                                          \
