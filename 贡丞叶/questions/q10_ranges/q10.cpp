@@ -57,6 +57,17 @@ std::vector<int> pipeline(const std::vector<int>& v) {
 }
 // ===== 填空 5 结束 =====
 
+// ===== 新增功能：使用 ranges 统计满足条件的元素个数 =====
+// 个性化接口：修改此阈值以调整统计行为
+constexpr int COUNT_THRESHOLD = 7;
+
+int count_above_threshold(const std::vector<int>& v) {
+    return static_cast<int>(
+        std::ranges::count_if(v, [](int x) { return x > COUNT_THRESHOLD; })
+    );
+}
+// ===== 新增功能结束 =====
+
 int main() {
     std::vector<int> v1{3, 1, 4, 1, 5, 9, 2, 6};
     sort_range(v1);
@@ -82,6 +93,9 @@ int main() {
     CHECK_EQ(piped[0], 1);   // 1^2 = 1
     CHECK_EQ(piped[1], 9);   // 3^2 = 9
     CHECK_EQ(piped[2], 4);   // 2^2 = 4
+
+    // 新增功能测试
+    CHECK_EQ(count_above_threshold({1, 5, 3, 8, 2, 7}), 1);
 
     return test_utils::test_result();
 }

@@ -55,7 +55,7 @@ bool weak_ptr_demo() {
 // 请补全：对 unique_ptr 调用 reset()，验证其变为 nullptr
 bool reset_demo() {
     auto p = std::make_unique<int>(99);
-    p.reset();
+    // p.reset();
     /* _____ */
     return p == nullptr;
 }

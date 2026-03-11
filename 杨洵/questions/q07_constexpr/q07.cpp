@@ -17,7 +17,7 @@ constexpr int factorial(int n){
 // ===== 填空 2 =====
 // 知识点：constexpr 变量（C++11）
 // 请用 constexpr 声明编译期常量
-constexpr int MAX_SIZE=256;
+constexpr int MAX_SIZE=100;
 // ===== 填空 2 结束 =====
 
 // ===== 填空 3 =====
