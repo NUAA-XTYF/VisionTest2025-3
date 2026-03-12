@@ -1,6 +1,7 @@
 // ============================================================
 // 题目 01：auto 与类型推导
 // 知识点：auto、decltype、尾置返回类型、auto 在 range-for 中
+//#include <iostream>//
 // ============================================================
 #include "test_utils.hpp"
 #include <vector>
@@ -11,7 +12,7 @@
 // 知识点：auto 自动推导变量类型
 // 请用 auto 声明一个初始值为 3.14 的变量
 //
-auto pi=3.14;
+auto pi=3.14; // 破坏：改为显式的 int
 // ===== 填空 1 结束 =====
 
 // ===== 填空 2 =====
@@ -37,7 +38,7 @@ auto add(T a, U b) -> decltype(a + b){
 // 请补全 sum_vector：用 range-based for + auto 累加元素
 int sum_vector(const std::vector<int>& v) {
     int sum = 0;
-//
+
     for (auto x : v) {
         sum += x;
     }
@@ -66,4 +67,10 @@ int main() {
     CHECK_EQ(sum_vector({1, 2, 3, 4, 5}), 15);
     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);
     return test_utils::test_result();
+}
+
+// 新添加的功能测试代码
+void shared_new_feature() {
+    std::string param_version = "alpha";
+    std::cout << "Loading team collaborative feature [" << param_version << "]..." << std::endl;
 }

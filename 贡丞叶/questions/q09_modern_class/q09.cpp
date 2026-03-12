@@ -58,7 +58,7 @@ struct Config {
 
     // 委托给主构造函数，提供默认值
     Config(std::string h, int p)
-        : Config(std::move(h),p,false) {}/* _____ */
+        : Config(std::move(h),p,true) {}/* _____ */
 
     Config()
         : Config("localhost",8080,false)/* _____ */ {}

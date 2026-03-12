@@ -47,6 +47,11 @@ inline int test_result() {
 
 } // namespace test_utils
 
+// 新功能：执行日志
+inline void log_execution(const char* msg, double timeout_val = 0.0) {
+    std::cout << "[LOG] (" << timeout_val << "s) " << msg << "\n";
+}
+
 // ---------- 测试宏 ----------
 
 #define CHECK(expr)                                                          \
@@ -55,6 +60,17 @@ inline int test_result() {
         if (!(expr)) {                                                       \
             ++test_utils::g_tests_failed;                                    \
             std::cerr << "[FAILED] " #expr                                   \
+                      << "  (" << __FILE__ << ":" << __LINE__ << ")\n";      \
+        }                                                                    \
+    } while (0)
+
+// 新功能：带自定义错误消息的断言宏
+#define CHECK_MSG(expr, msg)                                                 \
+    do {                                                                     \
+        ++test_utils::g_tests_run;                                           \
+        if (!(expr)) {                                                       \
+            ++test_utils::g_tests_failed;                                    \
+            std::cerr << "[FAILED] " #expr " : " << (msg)                    \
                       << "  (" << __FILE__ << ":" << __LINE__ << ")\n";      \
         }                                                                    \
     } while (0)

@@ -48,7 +48,9 @@ std::function<int()> make_counter() {
 // 请用 lambda 对 vector 按降序排序
 void sort_descending(std::vector<int>& v) {
     std::sort(v.begin(), v.end(), [](int a, int b) {return a > b;}/* _____ */);
+    
 }
+
 // ===== 填空 5 结束 =====
 
 int main() {

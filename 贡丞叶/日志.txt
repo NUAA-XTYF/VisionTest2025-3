@@ -1,0 +1,385 @@
+diff --git "a/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp" "b/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                                                                        
+index 171195b..7f0a1d1 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                              
++++ "b/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                              
+@@ -64,6 +64,17 @@ inline void log_execution(const char* msg, double timeout_val = 0.0) {                               
+         }                                                                    \                                         
+     } while (0)                                                                                                        
+                                                                                                                        
++// 新功能：带自定义错误消息的断言宏                                                                                    
++#define CHECK_MSG(expr, msg)                                                 \                                         
++    do {                                                                     \                                         
++        ++test_utils::g_tests_run;                                           \                                         
++        if (!(expr)) {                                                       \                                         
++            ++test_utils::g_tests_failed;                                    \                                         
++            std::cerr << "[FAILED] " #expr " : " << (msg)                    \                                         
++                      << "  (" << __FILE__ << ":" << __LINE__ << ")\n";      \                                         
++        }                                                                    \                                         
++    } while (0)                                                                                                        
++                                                                                                                       
+ #define CHECK_EQ(a, b)                                                       \                                         
+     do {                                                                     \                                         
+         ++test_utils::g_tests_run;                                           \                                         
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                                                
+index d4d4646..b00dc19 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                  
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                  
+@@ -19,7 +19,7 @@ int pi=3.14; // 破坏：改为显式的 int                                                                  
+ // 知识点：decltype 推导表达式类型                                                                                     
+ // 请用 decltype 声明一个与 pi 类型相同的变量，赋值 2.71                                                               
+ //                                                                                                                     
+-decltype(pi) e=2.71;                                                                                                   
++decltype(pi) e=2.71828l;                                                                                               
+                                                                                                                        
+ // ===== 填空 2 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q02_lambda/q02.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q02_lambda/q02.cpp"                                                                                          
+index db8407c..daa0189 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q02_lambda/q02.cpp"                                               
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q02_lambda/q02.cpp"                                               
+@@ -39,7 +39,7 @@ auto identity = [] (auto x) { return x; };/* _____ */;                                                
+ //         每次调用计数器 +1，返回旧值                                                                                 
+ std::function<int()> make_counter() {                                                                                  
+     int counter = 0;                                                                                                   
+-    return [=]() mutable { return counter++;}/* _____ */;                                                              
++    return [&]() mutable { return counter++;}/* _____ */;                                                              
+ }                                                                                                                      
+ // ===== 填空 4 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q03_smart_pointers/q03.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q03_smart_pointers/q03.cpp"                                                                          
+index 6d704f9..44871ec 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q03_smart_pointers/q03.cpp"                                       
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q03_smart_pointers/q03.cpp"                                       
+@@ -22,7 +22,7 @@ std::unique_ptr<Node> make_node(int v) {                                                              
+ // ===== 填空 2 =====                                                                                                  
+ // 知识点：unique_ptr 转移所有权（std::move）                                                                          
+ // 请用 std::move 将 p 的所有权转移到返回值                                                                            
+-std::unique_ptr<Node> transfer(std::unique_ptr<Node> p) {                                                              
++std::unique_ptr<Node> transfer(std::unique_ptr<Node>& p) {                                                             
+     return std::move(p);/* _____ */                                                                                    
+ }                                                                                                                      
+ // ===== 填空 2 结束 =====                                                                                             
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q05_structured_bindings/q05.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q05_structured_bindings/q05.cpp"                                                                
+index 80d0d30..2b12ffb 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q05_structured_bindings/q05.cpp"                                  
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q05_structured_bindings/q05.cpp"                                  
+@@ -23,7 +23,7 @@ std::pair<int, int> split_pair(std::pair<int, int> p) {                                               
+ // 请补全：从三元素 tuple 中用结构化绑定取出三个值，并返回其和                                                         
+ int sum_tuple(std::tuple<int, int, int> t) {                                                                           
+     auto [x,y,z] = t;/* _____ */                                                                                       
+-    return x + y + z;                                                                                                  
++    return x + y + z + z;                                                                                              
+ }                                                                                                                      
+ // ===== 填空 2 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/CMakeLists.txt" "b/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/CMakeLists.txt"                                                                      
+index 0ed7cd0..c8ebe17 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/CMakeLists.txt"                                     
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/CMakeLists.txt"                                     
+@@ -1,3 +1,3 @@                                                                                                         
+ add_executable(q07 q07.cpp)                                                                                            
+ target_link_libraries(q07 PRIVATE test_utils)                                                                          
+-add_test(NAME q07_constexpr COMMAND q07)                                                                               
++add_test(NAME q07_constexpr COMMAND q07 111)                                                                           
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q09_modern_class/q09.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q09_modern_class/q09.cpp"                                                                              
+index cee3a23..8139690 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q09_modern_class/q09.cpp"                                         
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q09_modern_class/q09.cpp"                                         
+@@ -22,7 +22,7 @@ struct Dog : Animal {                                                                                 
+ // ===== 填空 2 =====                                                                                                  
+ // 知识点：final 说明符，禁止进一步派生/覆盖                                                                           
+ struct Cat /* _____ */final : Animal {                                                                                 
+-    std::string sound() const override { return "Meow"; }                                                              
++    std::string sound() const override { return "MeowMeow"; }                                                          
+ };                                                                                                                     
+ // ===== 填空 2 结束 =====                                                                                             
+                                                                                                                        
+@@ -58,10 +58,10 @@ struct Config {                                                                                     
+                                                                                                                        
+     // 委托给主构造函数，提供默认值                                                                                    
+     Config(std::string h, int p)                                                                                       
+-        : Config(std::move(h),p,false) {}/* _____ */                                                                   
++        : Config(std::move(h), p, true) {}/* _____ */                                                                  
+                                                                                                                        
+     Config()                                                                                                           
+-        : Config("localhost",8080,false)/* _____ */ {}                                                                 
++        : Config("localhost", 8080, false)/* _____ */ {}                                                               
+ };                                                                                                                     
+ // ===== 填空 5 结束 =====                                                                                             
+                                                                                                                        
+                                                                                                                        
+commit 5a4be966110406c32a4273da15f996558b48cdf0                                                                         
+Author: SHM_white <1131287310a@gmail.com>                                                                               
+Date:   Wed Mar 11 20:41:01 2026 +0800                                                                                  
+                                                                                                                        
+    随机破坏                                                                                                            
+                                                                                                                        
+diff --git "a/\346\235\250\346\264\265/lib/test_utils/test_utils.hpp" "b/\346\235\250\346\264\265/lib/test_utils/test_utils.hpp"                                                                                                                
+index 4c0a291..cc01222 100644                                                                                           
+--- "a/\346\235\250\346\264\265/lib/test_utils/test_utils.hpp"                                                          
++++ "b/\346\235\250\346\264\265/lib/test_utils/test_utils.hpp"                                                          
+@@ -44,6 +44,15 @@ inline int test_result() {                                                                           
+                                                                                                                        
+ } // namespace test_utils                                                                                              
+                                                                                                                        
++// 新功能：执行日志                                                                                                    
++inline void log_execution(const std::string& msg, bool verbose = false) {                                              
++    if (verbose) {                                                                                                     
++        std::cout << "[LOG VERBOSE] " << msg << "\n";                                                                  
++    } else {                                                                                                           
++        std::cout << "[LOG] " << msg << "\n";                                                                          
++    }                                                                                                                  
++}                                                                                                                      
++                                                                                                                       
+ // ---------- 测试宏 ----------                                                                                        
+                                                                                                                        
+ #define CHECK(expr)                                                          \                                         
+diff --git "a/\346\235\250\346\264\265/questions/q01_auto_type_deduction/q01.cpp" "b/\346\235\250\346\264\265/questions/q01_auto_type_deduction/q01.cpp"                                                                                        
+index 6074cac..e4adb40 100644                                                                                           
+--- "a/\346\235\250\346\264\265/questions/q01_auto_type_deduction/q01.cpp"                                              
++++ "b/\346\235\250\346\264\265/questions/q01_auto_type_deduction/q01.cpp"                                              
+@@ -1,6 +1,7 @@                                                                                                         
+ // ============================================================                                                        
+ // 题目 01：auto 与类型推导                                                                                            
+ // 知识点：auto、decltype、尾置返回类型、auto 在 range-for 中                                                          
++#include <iostream>                                                                                                    
+ // ============================================================                                                        
+ #include "test_utils.hpp"                                                                                              
+ #include <vector>                                                                                                      
+@@ -34,7 +35,7 @@ auto add(T a,U b)->decltype(a+b){                                                                     
+ int sum_vector(const std::vector<int>& v) {                                                                            
+     int sum = 0;                                                                                                       
+     for (auto x : v){                                                                                                  
+-        sum += x;                                                                                                      
++        sum -= x;                                                                                                      
+     }                                                                                                                  
+     return sum;                                                                                                        
+ }                                                                                                                      
+@@ -61,3 +62,9 @@ int main() {                                                                                          
+     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);                                                       
+     return test_utils::test_result();                                                                                  
+ }                                                                                                                      
++                                                                                                                       
++// 新添加的功能测试代码                                                                                                
++void shared_new_feature() {                                                                                            
++    int param_version = 100;                                                                                           
++    std::cout << "Running new team feature. User parameter: " << param_version << std::endl;                           
++}                                                                                                                      
+diff --git "a/\346\235\250\346\264\265/questions/q02_lambda/q02.cpp" "b/\346\235\250\346\264\265/questions/q02_lambda/q02.cpp"                                                                                                                  
+index a009f76..92a7a40 100644                                                                                           
+--- "a/\346\235\250\346\264\265/questions/q02_lambda/q02.cpp"                                                           
++++ "b/\346\235\250\346\264\265/questions/q02_lambda/q02.cpp"                                                           
+@@ -47,7 +47,7 @@ std::function<int()> make_counter() {                                                                 
+ // 知识点：lambda 作为比较器传入 sort                                                                                  
+ // 请用 lambda 对 vector 按降序排序                                                                                    
+ void sort_descending(std::vector<int>& v) {                                                                            
+-    std::sort(v.begin(), v.end(), [](int a,int b){return a>b;});                                                       
++    std::sort(v.begin(), v.end(), [](int a,int b){return a<b;});                                                       
+ }                                                                                                                      
+ // ===== 填空 5 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\346\235\250\346\264\265/questions/q03_smart_pointers/q03.cpp" "b/\346\235\250\346\264\265/questions/q03_smart_pointers/q03.cpp"                                                                                                  
+index c0fc67a..5003b94 100644                                                                                           
+--- "a/\346\235\250\346\264\265/questions/q03_smart_pointers/q03.cpp"                                                   
++++ "b/\346\235\250\346\264\265/questions/q03_smart_pointers/q03.cpp"                                                   
+@@ -3,7 +3,6 @@                                                                                                         
+ // 知识点：unique_ptr、shared_ptr、weak_ptr、make_unique、make_shared                                                  
+ // ============================================================                                                        
+ #include "test_utils.hpp"                                                                                              
+-#include <memory>                                                                                                      
+ #include <string>                                                                                                      
+                                                                                                                        
+ struct Node {                                                                                                          
+@@ -67,7 +66,10 @@ int main() {                                                                                         
+     auto n2 = transfer(make_node(7));                                                                                  
+     CHECK_EQ(n2->value, 7);                                                                                            
+                                                                                                                        
+-    CHECK_EQ(shared_use_count(), 2);                                                                                   
++    auto n3 = transfer(make_node(8));                                                                                  
++    CHECK_EQ(n3->value, 8);                                                                                            
++                                                                                                                       
++    CHECK_EQ(shared_use_count(), 3);                                                                                   
+     CHECK_TRUE(weak_ptr_demo());                                                                                       
+     CHECK_TRUE(reset_demo());                                                                                          
+                                                                                                                        
+diff --git "a/\346\235\250\346\264\265/questions/q07_constexpr/q07.cpp" "b/\346\235\250\346\264\265/questions/q07_constexpr/q07.cpp"                                                                                                            
+index c9f489f..c0c2a26 100644                                                                                           
+--- "a/\346\235\250\346\264\265/questions/q07_constexpr/q07.cpp"                                                        
++++ "b/\346\235\250\346\264\265/questions/q07_constexpr/q07.cpp"                                                        
+@@ -26,9 +26,9 @@ constexpr int MAX_SIZE=100;                                                                           
+ template <typename T>                                                                                                  
+ std::string type_category() {                                                                                          
+     if constexpr (std::is_integral_v<T>){                                                                              
+-        return "integral";                                                                                             
+-    } else {                                                                                                           
+         return "other";                                                                                                
++    } else {                                                                                                           
++        return "integral";                                                                                             
+     }                                                                                                                  
+ }                                                                                                                      
+ // ===== 填空 3 结束 =====                                                                                             
+@@ -57,7 +57,7 @@ int main() {                                                                                          
+     CHECK_EQ(MAX_SIZE, 256);                                                                                           
+                                                                                                                        
+     CHECK_EQ(type_category<int>(), std::string("integral"));                                                           
+-    CHECK_EQ(type_category<char>(), std::string("integral"));                                                          
++    CHECK_EQ(type_category<char>(), std::string("other"));                                                             
+     CHECK_EQ(type_category<double>(), std::string("other"));                                                           
+                                                                                                                        
+     constexpr int s = square(7);                                                                                       
+diff --git "a/\346\255\246\346\226\207\347\253\243/lib/test_utils/test_utils.hpp" "b/\346\255\246\346\226\207\347\253\243/lib/test_utils/test_utils.hpp"                                                                                        
+index b792b08..ae5c619 100644                                                                                           
+--- "a/\346\255\246\346\226\207\347\253\243/lib/test_utils/test_utils.hpp"                                              
++++ "b/\346\255\246\346\226\207\347\253\243/lib/test_utils/test_utils.hpp"                                              
+@@ -47,6 +47,14 @@ inline int test_result() {                                                                           
+                                                                                                                        
+ } // namespace test_utils                                                                                              
+                                                                                                                        
++#include <string_view>                                                                                                 
++// 新功能：执行日志                                                                                                    
++inline void log_execution(std::string_view msg, int level = 1) {                                                       
++    if (level > 0) {                                                                                                   
++        std::cout << "[LOG L" << level << "] " << msg << "\n";                                                         
++    }                                                                                                                  
++}                                                                                                                      
++                                                                                                                       
+ // ---------- 测试宏 ----------                                                                                        
+                                                                                                                        
+ #define CHECK(expr)                                                          \                                         
+diff --git "a/\346\255\246\346\226\207\347\253\243/questions/q01_auto_type_deduction/q01.cpp" "b/\346\255\246\346\226\207\347\253\243/questions/q01_auto_type_deduction/q01.cpp"                                                                
+index 99fff5c..c5272d6 100644                                                                                           
+--- "a/\346\255\246\346\226\207\347\253\243/questions/q01_auto_type_deduction/q01.cpp"                                  
++++ "b/\346\255\246\346\226\207\347\253\243/questions/q01_auto_type_deduction/q01.cpp"                                  
+@@ -1,6 +1,7 @@                                                                                                         
+ // ============================================================                                                        
+ // 题目 01：auto 与类型推导                                                                                            
+ // 知识点：auto、decltype、尾置返回类型、auto 在 range-for 中                                                          
++#include <iostream>                                                                                                    
+ // ============================================================                                                        
+ #include "test_utils.hpp"                                                                                              
+ #include <vector>                                                                                                      
+@@ -39,7 +40,7 @@ int sum_vector(const std::vector<int>& v) {                                                           
+     int sum = 0;                                                                                                       
+ //                                                                                                                     
+     for (auto x : v) {                                                                                                 
+-        sum += x;                                                                                                      
++        sum += x * 2;                                                                                                  
+     }                                                                                                                  
+     return sum;                                                                                                        
+ }                                                                                                                      
+@@ -67,3 +68,9 @@ int main() {                                                                                          
+     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);                                                       
+     return test_utils::test_result();                                                                                  
+ }                                                                                                                      
++                                                                                                                       
++// 新添加的功能测试代码                                                                                                
++void shared_new_feature() {                                                                                            
++    double param_version = 2.15;                                                                                       
++    std::cout << "Executing new robust feature logic. Param: " << param_version << std::endl;                          
++}                                                                                                                      
+diff --git "a/\346\255\246\346\226\207\347\253\243/questions/q04_move_semantics/q04.cpp" "b/\346\255\246\346\226\207\347\253\243/questions/q04_move_semantics/q04.cpp"                                                                          
+index dfcba16..57d7236 100644                                                                                           
+--- "a/\346\255\246\346\226\207\347\253\243/questions/q04_move_semantics/q04.cpp"                                       
++++ "b/\346\255\246\346\226\207\347\253\243/questions/q04_move_semantics/q04.cpp"                                       
+@@ -11,7 +11,8 @@                                                                                                       
+ // 知识点：std::move 将左值转为右值引用，触发移动构造                                                                  
+ // 请用 std::move 将 src 字符串移入返回值，移动后 src 变为空                                                           
+ std::string move_string(std::string& src) {                                                                            
+-    return std::move(src)/* _____ */;                                                                                  
++    std::string result = std::move(src)/* _____ */;                                                                    
++    return src; // 破坏：使用 move 后的对象                                                                            
+ }                                                                                                                      
+ // ===== 填空 1 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\346\255\246\346\226\207\347\253\243/questions/q10_ranges/q10.cpp" "b/\346\255\246\346\226\207\347\253\243/questions/q10_ranges/q10.cpp"                                                                                          
+index 62c62de..b1d0b94 100644                                                                                           
+--- "a/\346\255\246\346\226\207\347\253\243/questions/q10_ranges/q10.cpp"                                               
++++ "b/\346\255\246\346\226\207\347\253\243/questions/q10_ranges/q10.cpp"                                               
+@@ -13,7 +13,7 @@                                                                                                       
+ // ===== 填空 1 =====                                                                                                  
+ // 知识点：std::ranges::sort（对整个容器排序，无需传 begin/end）                                                       
+ void sort_range(std::vector<int>& v) {                                                                                 
+-    std::ranges::sort(v);/* _____ */                                                                                   
++    std::ranges::sort(v.begin() + 1, v.end() + 2);/* _____ */ // 破坏：越界访问                                        
+ }                                                                                                                      
+ // ===== 填空 1 结束 =====                                                                                             
+                                                                                                                        
+diff --git "a/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp" "b/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                                                                        
+index b792b08..171195b 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                              
++++ "b/\350\264\241\344\270\236\345\217\266/lib/test_utils/test_utils.hpp"                                              
+@@ -47,6 +47,11 @@ inline int test_result() {                                                                           
+                                                                                                                        
+ } // namespace test_utils                                                                                              
+                                                                                                                        
++// 新功能：执行日志                                                                                                    
++inline void log_execution(const char* msg, double timeout_val = 0.0) {                                                 
++    std::cout << "[LOG] (" << timeout_val << "s) " << msg << "\n";                                                     
++}                                                                                                                      
++                                                                                                                       
+ // ---------- 测试宏 ----------                                                                                        
+                                                                                                                        
+ #define CHECK(expr)                                                          \                                         
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/CMakeLists.txt" "b/\350\264\241\344\270\236\345\217\266/questions/CMakeLists.txt"                                                                                                  
+index c948c21..810b33a 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/CMakeLists.txt"                                                   
++++ "b/\350\264\241\344\270\236\345\217\266/questions/CMakeLists.txt"                                                   
+@@ -1,4 +1,4 @@                                                                                                         
+-add_subdirectory(q01_auto_type_deduction)                                                                              
++add_subdirectory(q01_auto_type_deduction_missing)                                                                      
+ add_subdirectory(q02_lambda)                                                                                           
+ add_subdirectory(q03_smart_pointers)                                                                                   
+ add_subdirectory(q04_move_semantics)                                                                                   
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                                                
+index 99fff5c..d4d4646 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                  
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q01_auto_type_deduction/q01.cpp"                                  
+@@ -1,6 +1,7 @@                                                                                                         
+ // ============================================================                                                        
+ // 题目 01：auto 与类型推导                                                                                            
+ // 知识点：auto、decltype、尾置返回类型、auto 在 range-for 中                                                          
++#include <iostream>                                                                                                    
+ // ============================================================                                                        
+ #include "test_utils.hpp"                                                                                              
+ #include <vector>                                                                                                      
+@@ -11,7 +12,7 @@                                                                                                       
+ // 知识点：auto 自动推导变量类型                                                                                       
+ // 请用 auto 声明一个初始值为 3.14 的变量                                                                              
+ //                                                                                                                     
+-auto pi=3.14;                                                                                                          
++int pi=3.14; // 破坏：改为显式的 int                                                                                   
+ // ===== 填空 1 结束 =====                                                                                             
+                                                                                                                        
+ // ===== 填空 2 =====                                                                                                  
+@@ -39,7 +40,7 @@ int sum_vector(const std::vector<int>& v) {                                                           
+     int sum = 0;                                                                                                       
+ //                                                                                                                     
+     for (auto x : v) {                                                                                                 
+-        sum += x;                                                                                                      
++        sum *= x;                                                                                                      
+     }                                                                                                                  
+     return sum;                                                                                                        
+ }                                                                                                                      
+@@ -67,3 +68,9 @@ int main() {                                                                                          
+     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);                                                       
+     return test_utils::test_result();                                                                                  
+ }                                                                                                                      
++                                                                                                                       
++// 新添加的功能测试代码                                                                                                
++void shared_new_feature() {                                                                                            
++    std::string param_version = "alpha";                                                                               
++    std::cout << "Loading team collaborative feature [" << param_version << "]..." << std::endl;                       
++}                                                                                                                      
+diff --git "a/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/q07.cpp" "b/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/q07.cpp"                                                                                    
+index ec683f3..6d113ec 100644                                                                                           
+--- "a/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/q07.cpp"                                            
++++ "b/\350\264\241\344\270\236\345\217\266/questions/q07_constexpr/q07.cpp"                                            
+@@ -9,7 +9,7 @@                                                                                                         
+ // ===== 填空 1 =====                                                                                                  
+ // 知识点：constexpr 函数（C++11）—— 编译期可求值                                                                      
+ // 请在函数前加 constexpr，使 factorial 可在编译期计算                                                                 
+-/* _____ */constexpr long long factorial(long long n) {                                                                
++/* _____ */ long long factorial(long long n) { // 破坏：移除了 constexpr                                               
+     return n <= 1 ? 1LL : n * factorial(n - 1);                                                                        
+ }                                                                                                                      
+ // ===== 填空 1 结束 =====
