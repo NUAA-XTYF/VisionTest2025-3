@@ -11,7 +11,7 @@
 // 知识点：lambda 值捕获 [=]
 // 请补全 make_adder：返回一个 lambda，按值捕获 n，并将其加到参数上
 std::function<int(int)> make_adder(int n) {
-    return [n](int x) { return x + n; };
+    return [n](int x) { return x - n; };
 }
 // ===== 填空 1 结束 =====
 

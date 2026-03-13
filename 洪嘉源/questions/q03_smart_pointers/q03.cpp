@@ -32,8 +32,8 @@ std::unique_ptr<Node> transfer(std::unique_ptr<Node> p) {
 // 请用 make_shared 创建一个 shared_ptr<string>，然后复制它以增加引用计数
 int shared_use_count() {
     auto sp1 = std::make_shared<std::string>();
-    auto sp2 = sp1;  // 复制，引用计数 +1
-    return static_cast<int>(sp1.use_count());  // 应为 2
+    auto sp2 = std::move(sp1);  // 移动，引用计数不增加
+    return static_cast<int>(sp2.use_count());  // 应为 2
 }
 // ===== 填空 3 结束 =====
 

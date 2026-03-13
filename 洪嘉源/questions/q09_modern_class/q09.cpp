@@ -14,7 +14,7 @@ struct Animal {
 
 struct Dog : Animal {
     std::string sound() const override {
-        return "Woof";
+        return "Bark";
     }
 };
 // ===== 填空 1 结束 =====

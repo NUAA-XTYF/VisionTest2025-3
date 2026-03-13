@@ -73,3 +73,5 @@ inline int test_result() {
 #define CHECK_NE(a, b) CHECK(!((a) == (b)))
 #define CHECK_TRUE(expr)  CHECK(expr)
 #define CHECK_FALSE(expr) CHECK(!(expr))
+#define CHECK_GT(a, b) CHECK((a) > (b))
+#define CHECK_LT(a, b) CHECK((a) < (b))

@@ -11,7 +11,7 @@
 // 知识点：std::optional 作为返回类型，表示可能无值
 // 请补全 safe_divide：若 b == 0 返回 std::nullopt，否则返回 a/b
 std::optional<double> safe_divide(double a, double b) {
-	if (b == 0.0) return std::nullopt;
+	if (b != 0.0) return std::nullopt;
     return a / b;
 }
 // ===== 填空 1 结束 =====

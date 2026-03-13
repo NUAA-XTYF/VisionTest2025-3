@@ -14,7 +14,7 @@
 // 请补全：用结构化绑定从 pair 中取出 first 和 second
 std::pair<int, int> split_pair(std::pair<int, int> p) {
 	auto [a, b] = p;
-    return {b, a};    // 交换返回
+    return {a, b};    // 交换返回
 }
 // ===== 填空 1 结束 =====
 

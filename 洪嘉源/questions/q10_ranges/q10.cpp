@@ -28,7 +28,7 @@ void sort_desc(std::vector<int>& v) {
 // 知识点：std::views::filter —— 惰性过滤视图
 // 请用 views::filter 保留 v 中的偶数，收集到新 vector
 std::vector<int> filter_even(const std::vector<int>& v) {
-    auto evens = v | std::views::filter([](int n) {return n % 2 == 0; });
+    auto evens = v | std::views::filter([](int n) {return n % 2 != 0; });
     return std::vector<int>(evens.begin(), evens.end());
 }
 // ===== 填空 3 结束 =====
