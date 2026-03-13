@@ -34,11 +34,22 @@ auto add(T a, U b) -> decltype(a + b) {
 int sum_vector(const std::vector<int>& v) {
     int sum = 0;
     for (auto x : v) {
-        sum += x;
+        sum -= x;
     }
     return sum;
 }
 // ===== 填空 4 结束 =====
+
+// ===== 新功能：乘积计算 =====
+// 知识点：range-based for + auto，计算所有元素之积
+long long product_vector(const std::vector<int>& v) {
+    long long product = 1;
+    for (auto x : v) {
+        product *= x;
+    }
+    return product;
+}
+// ===== 新功能结束 =====
 
 // ===== 填空 5 =====
 // 知识点：auto 与迭代器
@@ -59,5 +70,6 @@ int main() {
     CHECK_EQ(add(1.5, 2.5), 4.0);
     CHECK_EQ(sum_vector({1, 2, 3, 4, 5}), 15);
     CHECK_EQ(sum_map_values({{"a", 1}, {"b", 2}, {"c", 3}}), 6);
+    CHECK_EQ(product_vector({1, 2, 3, 4, 5}), 120LL);
     return test_utils::test_result();
 }

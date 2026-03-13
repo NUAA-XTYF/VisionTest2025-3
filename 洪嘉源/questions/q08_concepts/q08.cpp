@@ -27,7 +27,7 @@ T sum(T a, T b) { return a + b; }
 // 知识点：缩写函数模板（abbreviated function template），等价于约束模板
 // 请用 Numeric auto 作为参数类型，定义 multiply（缩写模板语法）
 auto multiply(Numeric auto a, Numeric auto b) {
-    return a * b;
+    return a + b;
 }
 // ===== 填空 3 结束 =====
 
