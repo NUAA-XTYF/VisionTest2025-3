@@ -22,7 +22,7 @@ struct Dog : Animal {
 // ===== 填空 2 =====
 // 知识点：final 说明符，禁止进一步派生/覆盖
 struct Cat /* _____ */final : Animal {
-    std::string sound() const override { return "Meow"; }
+    std::string sound() const { return "Meow"; }
 };
 // ===== 填空 2 结束 =====
 
