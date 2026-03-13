@@ -80,6 +80,41 @@ jobs:
           path: 杨洵/build/
           if-no-files-found: warn
 
+  # ── 洪嘉源 ──────────────────────────────────────────────────────────────────
+  build-hongjiaoyuan:
+    name: 编译 洪嘉源
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+
+      - name: 安装编译环境
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake g++-13
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
+
+      - name: 配置并编译 洪嘉源
+        run: |
+          cd 洪嘉源
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --parallel
+
+      - name: 运行测试 洪嘉源
+        run: |
+          cd 洪嘉源
+          ctest --test-dir build --output-on-failure
+        continue-on-error: true
+
+      - name: 上传编译产物 洪嘉源
+        uses: actions/upload-artifact@v4
+        with:
+          name: 洪嘉源-build
+          path: 洪嘉源/build/
+          if-no-files-found: warn
+
   # ── 贡丞叶 ──────────────────────────────────────────────────────────────────
   build-gongchengye:
     name: 编译 贡丞叶
