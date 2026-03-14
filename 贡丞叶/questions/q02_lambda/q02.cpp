@@ -39,7 +39,7 @@ auto identity = [] (auto x) { return x; };/* _____ */;
 //         每次调用计数器 +1，返回旧值
 std::function<int()> make_counter() {
     int counter = 0;
-    return [&]() mutable { return counter++;}/* _____ */;
+    return [=]() mutable { return counter++;}/* _____ */;
 }
 // ===== 填空 4 结束 =====
 

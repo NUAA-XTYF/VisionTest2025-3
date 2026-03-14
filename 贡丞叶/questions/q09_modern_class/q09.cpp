@@ -22,7 +22,7 @@ struct Dog : Animal {
 // ===== 填空 2 =====
 // 知识点：final 说明符，禁止进一步派生/覆盖
 struct Cat /* _____ */final : Animal {
-    std::string sound() const override { return "MeowMeow"; }
+    std::string sound() const override { return "Meow"; }
 };
 // ===== 填空 2 结束 =====
 
@@ -58,7 +58,7 @@ struct Config {
 
     // 委托给主构造函数，提供默认值
     Config(std::string h, int p)
-        : Config(std::move(h), p, true) {}/* _____ */
+        : Config(std::move(h), p, false) {}/* _____ */
 
     Config()
         : Config("localhost", 8080, false)/* _____ */ {}

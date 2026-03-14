@@ -23,7 +23,7 @@ std::pair<int, int> split_pair(std::pair<int, int> p) {
 // 请补全：从三元素 tuple 中用结构化绑定取出三个值，并返回其和
 int sum_tuple(std::tuple<int, int, int> t) {
     auto [x,y,z] = t;/* _____ */
-    return x + y + z + z;
+    return x + y + z;
 }
 // ===== 填空 2 结束 =====
 

@@ -22,7 +22,7 @@ std::unique_ptr<Node> make_node(int v) {
 // ===== 填空 2 =====
 // 知识点：unique_ptr 转移所有权（std::move）
 // 请用 std::move 将 p 的所有权转移到返回值
-std::unique_ptr<Node> transfer(std::unique_ptr<Node>& p) {
+std::unique_ptr<Node> transfer(std::unique_ptr<Node> p) {
     return std::move(p);/* _____ */
 }
 // ===== 填空 2 结束 =====
