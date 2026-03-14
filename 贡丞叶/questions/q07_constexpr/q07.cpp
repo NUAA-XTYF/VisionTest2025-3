@@ -9,7 +9,7 @@
 // ===== 填空 1 =====
 // 知识点：constexpr 函数（C++11）—— 编译期可求值
 // 请在函数前加 constexpr，使 factorial 可在编译期计算
-/* _____ */ long long factorial(long long n) { // 破坏：移除了 constexpr
+/* _____ */constexpr long long factorial(long long n) { // 破坏：移除了 constexpr
     return n <= 1 ? 1LL : n * factorial(n - 1);
 }
 // ===== 填空 1 结束 =====
