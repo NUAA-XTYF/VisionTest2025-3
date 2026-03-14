@@ -1,4 +1,4 @@
-add_subdirectory(q01_auto_type_deduction_missing)
+add_subdirectory(q01_auto_type_deduction)
 add_subdirectory(q02_lambda)
 add_subdirectory(q03_smart_pointers)
 add_subdirectory(q04_move_semantics)
