@@ -10,7 +10,7 @@
 // 知识点：constexpr 函数（C++11）—— 编译期可求值
 // 请在函数前加 constexpr，使 factorial 可在编译期计算
 /* _____ */constexpr long long factorial(long long n) {
-    return n <= 1 ? 1L : n * factorial(n - 1);
+    return n <= 1 ? 1LL : n * factorial(n - 1);
 }
 // ===== 填空 1 结束 =====
 
@@ -60,7 +60,7 @@ int main() {
     CHECK_EQ(factorial(0), 1LL);
     CHECK_EQ(factorial(10), 3628800LL);
 
-    CHECK_EQ(MAX_SIZE, 25);
+    CHECK_EQ(MAX_SIZE, 256);
 
     CHECK_EQ(type_category<int>(), std::string("integral"));
     CHECK_EQ(type_category<char>(), std::string("integral"));

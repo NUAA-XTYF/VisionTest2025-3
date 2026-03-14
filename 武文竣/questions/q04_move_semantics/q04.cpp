@@ -11,8 +11,7 @@
 // 知识点：std::move 将左值转为右值引用，触发移动构造
 // 请用 std::move 将 src 字符串移入返回值，移动后 src 变为空
 std::string move_string(std::string& src) {
-    std::string result = std::move(src)/* _____ */;
-    return src; // 破坏：使用 move 后的对象
+    return std::move(src);/* _____ */;
 }
 // ===== 填空 1 结束 =====
 
